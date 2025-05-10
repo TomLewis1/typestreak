@@ -1,0 +1,83 @@
+@import 'tailwindcss';
+
+/* Basic styling for the entire app */
+body {
+  background-color: #273144;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: white;
+}
+
+/* Centered main content container */
+main {
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Styling for the sentence display */
+.sentence-container {
+  margin-bottom: 20px;
+}
+
+/* Styling for each individual character of the sentence */
+.sentence-container span {
+  font-size: 24px;
+  font-family: 'Courier New', monospace;
+  padding: 0 2px;
+  transition: color 0.3s ease;
+}
+
+/* Styling for the typing box input */
+input[type='text'] {
+  background-color: #2d3748;
+  border: 2px solid #4a5568;
+  color: white;
+  font-size: 24px;
+  padding: 10px;
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-family: 'Courier New', monospace;
+  transition: border-color 0.2s;
+}
+
+/* Focus effect for input box */
+input[type='text']:focus {
+  border-color: #63b3ed;
+  outline: none;
+}
+
+/* Styling for the stats panel */
+.stats-panel {
+  margin-top: 20px;
+}
+
+.stats-panel div {
+  font-size: 20px;
+  font-family: 'Courier New', monospace;
+  margin-bottom: 10px;
+}
+
+/* Button styling */
+button {
+  background-color: #3182ce;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s;
+}
+
+/* Button hover effect */
+button:hover {
+  background-color: #2b6cb0;
+}
