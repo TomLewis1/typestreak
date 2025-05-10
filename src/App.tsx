@@ -1,24 +1,41 @@
 // src/App.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SentenceDisplay from './components/SentenceDisplay';
 import TypingBox from './components/TypingBox';
 import StatsPanel from './components/StatsPanel';
 import './App.css';
+import tsLogo from './assets/ts.png'; // adjust path as needed
 
 const App: React.FC = () => {
-  const sentences = [
-    'The quick brown fox jumps over the lazy dog.',
-    'React is a powerful JavaScript library for building user interfaces.',
-    'JavaScript is one of the most popular programming languages.',
-  ];
-
-  const [targetText, setTargetText] = useState<string>(sentences[0]);
+  const [targetText, setTargetText] = useState<string>('Loading...');
   const [typedText, setTypedText] = useState<string>('');
   const [startTime, setStartTime] = useState<number | null>(null);
   const [isTestComplete, setIsTestComplete] = useState<boolean>(false);
   const [timeElapsed, setTimeElapsed] = useState<number>(0);
   const [correctChars, setCorrectChars] = useState<number>(0);
   const [totalTypedChars, setTotalTypedChars] = useState<number>(0);
+  const hasFetched = useRef(false); // To ensure we only fetch once
+
+  const fetchRandomSentence = async () => {
+    try {
+      const response = await fetch(
+        'https://en.wikipedia.org/api/rest_v1/page/random/summary'
+      );
+      const data = await response.json();
+      const sentence = data.extract.split('. ')[0] + '.'; // Get first sentence
+      setTargetText(sentence);
+    } catch (error) {
+      console.error('Failed to fetch sentence:', error);
+      setTargetText('Failed to load sentence. Please try again.');
+    }
+  };
+
+  useEffect(() => {
+    if (!hasFetched.current) {
+      fetchRandomSentence();
+      hasFetched.current = true;
+    }
+  }, []);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
@@ -28,14 +45,14 @@ const App: React.FC = () => {
         const now = Date.now();
         const elapsed = (now - startTime) / 1000; // convert to seconds
         setTimeElapsed(parseFloat(elapsed.toFixed(2))); // include milliseconds
-      }, 100); // update every 100ms
+      }, 10); // update every 10ms
     }
 
     return () => clearInterval(interval);
   }, [isTestComplete, startTime]);
 
   const restartTest = () => {
-    setTargetText(sentences[Math.floor(Math.random() * sentences.length)]);
+    fetchRandomSentence();
     setTypedText('');
     setStartTime(null);
     setIsTestComplete(false);
@@ -71,6 +88,7 @@ const App: React.FC = () => {
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen p-6 text-white">
+      <img src={tsLogo} alt="Logo" className="w-16 h-16 inline-block mr-2" />
       <h1 className="text-5xl font-bold text-center text-indigo-800 drop-shadow-md mb-8">
         <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600">
           TypeStreak
