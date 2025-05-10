@@ -73,7 +73,7 @@ const App: React.FC = () => {
     <main className="flex flex-col items-center justify-center min-h-screen p-6 text-white">
       <h1 className="text-5xl font-bold text-center text-indigo-800 drop-shadow-md mb-8">
         <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600">
-          TypeMasher
+          TypeStreak
         </span>
       </h1>
 
